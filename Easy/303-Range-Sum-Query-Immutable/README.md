@@ -1,0 +1,92 @@
+# [303. Range Sum Query - Immutable](https://leetcode.com/problems/range-sum-query-immutable/)
+
+![Difficulty: Easy](https://img.shields.io/badge/Difficulty-Easy-brightgreen?style=for-the-badge)
+![Language: Java](https://img.shields.io/badge/Language-Java-blue?style=for-the-badge)
+[![LeetCode Profile](https://img.shields.io/badge/LeetCode-Profile-FFA116?style=for-the-badge&logo=leetcode&logoColor=white)](https://leetcode.com/sreesrinivas/)
+
+---
+
+## 📝 Problem Statement
+
+Given an integer array `nums`, handle multiple queries of the following type:
+
+- Calculate the **sum** of the elements of `nums` between indices `left` and `right` **inclusive** where `left <= right`.
+
+Implement the `NumArray` class:
+
+- `NumArray(int[] nums)` Initializes the object with the integer array `nums`.
+
+- `int sumRange(int left, int right)` Returns the **sum** of the elements of `nums` between indices `left` and `right` **inclusive** (i.e. `nums[left] + nums[left + 1] + ... + nums[right]`).
+
+ 
+
+**Example 1:**
+
+```
+Input
+["NumArray", "sumRange", "sumRange", "sumRange"]
+[[[-2, 0, 3, -5, 2, -1]], [0, 2], [2, 5], [0, 5]]
+Output
+[null, 1, -1, -3]
+
+Explanation
+NumArray numArray = new NumArray([-2, 0, 3, -5, 2, -1]);
+numArray.sumRange(0, 2); // return (-2) + 0 + 3 = 1
+numArray.sumRange(2, 5); // return 3 + (-5) + 2 + (-1) = -1
+numArray.sumRange(0, 5); // return (-2) + 0 + 3 + (-5) + 2 + (-1) = -3
+```
+
+ 
+
+**Constraints:**
+
+- `1 <= nums.length <= 104`
+
+- `-105 <= nums[i] <= 105`
+
+- `0 <= left <= right < nums.length`
+
+- At most `104` calls will be made to `sumRange`.
+
+---
+
+## 💡 Solution Explanation
+
+Two-pointer linear scan adjusting window boundaries based on constraints to satisfy all problem constraints with optimal runtime performance.
+
+### ⏱️ Complexity Analysis
+
+- **Time Complexity:** `O(n)`
+- **Space Complexity:** `O(1)`
+
+---
+
+## 💻 Source Code
+
+👉 **[View Solution File](./solution.java)**
+
+```java
+class NumArray {
+
+    int[] arr;
+    public NumArray(int[] nums) { // Constructor
+        arr = Arrays.copyOf(nums , nums.length); //deep copy
+        for(int i = 1; i < nums.length; i++){
+            arr[i] += arr[i-1];
+        }
+    }    
+    public int sumRange(int left, int right) {
+        if(left == 0) return arr[right];
+        return arr[right] - arr[left-1];
+    }
+}
+
+/**
+ * Your NumArray object will be instantiated and called as such:
+ * NumArray obj = new NumArray(nums);
+ * int param_1 = obj.sumRange(left,right);
+ */
+```
+
+---
+*Automatically solved and synced to GitHub by [sreesrinivas](https://leetcode.com/sreesrinivas/) using [LeetCode Automation](https://github.com/sreesrinivas/DSA).*
