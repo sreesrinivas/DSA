@@ -1,7 +1,7 @@
 # [1541. Minimum Insertions to Balance a Parentheses String](https://leetcode.com/problems/minimum-insertions-to-balance-a-parentheses-string/)
 
 ![Difficulty: Medium](https://img.shields.io/badge/Difficulty-Medium-orange?style=for-the-badge)
-![Language: Java](https://img.shields.io/badge/Language-Java-blue?style=for-the-badge)
+![Language: C++](https://img.shields.io/badge/Language-C++-blue?style=for-the-badge)
 [![LeetCode Profile](https://img.shields.io/badge/LeetCode-Profile-FFA116?style=for-the-badge&logo=leetcode&logoColor=white)](https://leetcode.com/sreesrinivas/)
 
 ---
@@ -71,29 +71,34 @@ Optimal iterative solution using a single pass to satisfy all problem constraint
 
 ## 💻 Source Code
 
-👉 **[View Solution File](./solution.java)**
+👉 **[View Solution File](./solution.cpp)**
 
-```java
+```cpp
 class Solution {
-    public int minInsertions(String s) {
-        int open = 0, ans = 0;
-
-        for (int i = 0; i < s.length(); i++) {
-            if (s.charAt(i) == '(') open++;
-            else {
-                // Step 1: make a "))"
-                if (i + 1 < s.length() && s.charAt(i + 1) == ')') i++;
-                else ans++;
-
-                // Step 2: find its '('
-                if (open > 0) open--;
-                else ans++;
+public:
+    int minInsertions(string& s) {
+        int p=0, n=s.size(), k=0;
+        for(int i=0; i<n; i++){
+            char c=s[i];
+            if (c=='('){
+                p+=2;
+                if (p&1==1){
+                    k++;
+                    p--;
+                }
+            }
+            else{
+                p--;
+                if (p<0){
+                    k++;
+                    p+=2;
+                }
+               
             }
         }
-
-        return ans + open * 2;
+        return p+k;
     }
-}
+};
 ```
 
 ---
