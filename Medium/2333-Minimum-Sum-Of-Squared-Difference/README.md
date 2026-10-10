@@ -1,7 +1,7 @@
 # [2333. Minimum Sum of Squared Difference](https://leetcode.com/problems/minimum-sum-of-squared-difference/)
 
 ![Difficulty: Medium](https://img.shields.io/badge/Difficulty-Medium-orange?style=for-the-badge)
-![Language: Python3](https://img.shields.io/badge/Language-Python3-blue?style=for-the-badge)
+![Language: Java](https://img.shields.io/badge/Language-Java-blue?style=for-the-badge)
 [![LeetCode Profile](https://img.shields.io/badge/LeetCode-Profile-FFA116?style=for-the-badge&logo=leetcode&logoColor=white)](https://leetcode.com/sreesrinivas/)
 
 ---
@@ -58,22 +58,53 @@ Note that, there are other ways to obtain the minimum of the sum of square diffe
 
 ## 💡 Solution Explanation
 
-Optimal iterative solution using a single pass to satisfy all problem constraints with optimal runtime performance.
+Exhaustive / multi-pass search across candidate elements to satisfy all problem constraints with optimal runtime performance.
 
 ### ⏱️ Complexity Analysis
 
-- **Time Complexity:** `O(n)`
+- **Time Complexity:** `O(n²)`
 - **Space Complexity:** `O(1)`
 
 ---
 
 ## 💻 Source Code
 
-👉 **[View Solution File](./solution.py)**
+👉 **[View Solution File](./solution.java)**
 
-```python
-k   = k1 + k2 = 3 + 1 = 4
-d   = all zeros      sum = 0      max = 0
+```java
+class Solution {
+    public long minSumSquareDiff(int[] nums1, int[] nums2, int k1, int k2) {
+        int[] d = new int[100001];
+        long k = (long) k1 + k2, sum = 0;
+        int max = 0;
+
+        // Step 1: count the differences
+        for (int i = 0; i < nums1.length; i++) {
+            int x = Math.abs(nums1[i] - nums2[i]);
+            d[x]++;
+            sum += x;
+            max = Math.max(max, x);
+        }
+
+        // Enough budget -> every difference becomes 0
+        if (sum <= k) return 0;
+
+        // Step 2: shave the biggest differences, level by level
+        for (int i = max; i > 0 && k > 0; i--) {
+            long move = Math.min(k, d[i]);
+            d[i] -= move;
+            d[i - 1] += move;
+            k -= move;
+        }
+
+        // Step 3: add up the squares
+        long ans = 0;
+        for (int i = 0; i <= max; i++)
+            ans += (long) i * i * d[i];
+
+        return ans;
+    }
+}
 ```
 
 ---
