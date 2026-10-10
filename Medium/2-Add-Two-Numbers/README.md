@@ -1,7 +1,7 @@
 # [2. Add Two Numbers](https://leetcode.com/problems/add-two-numbers/)
 
 ![Difficulty: Medium](https://img.shields.io/badge/Difficulty-Medium-orange?style=for-the-badge)
-![Language: Python3](https://img.shields.io/badge/Language-Python3-blue?style=for-the-badge)
+![Language: C++](https://img.shields.io/badge/Language-C++-blue?style=for-the-badge)
 [![LeetCode Profile](https://img.shields.io/badge/LeetCode-Profile-FFA116?style=for-the-badge&logo=leetcode&logoColor=white)](https://leetcode.com/sreesrinivas/)
 
 ---
@@ -61,30 +61,37 @@ Optimal iterative solution using a single pass to satisfy all problem constraint
 
 ## 💻 Source Code
 
-👉 **[View Solution File](./solution.py)**
+👉 **[View Solution File](./solution.cpp)**
 
-```python
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
-class Solution:
-    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
-        dummy = ListNode(0)
-        curr = dummy
-        carry = 0
-        while l1 or l2 or carry:
-            v1 = l1.val if l1 else 0
-            v2 = l2.val if l2 else 0
-            val = v1 + v2 + carry
-            carry = val // 10
-            curr.next = ListNode(val % 10)
-            curr = curr.next
-            l1 = l1.next if l1 else None
-            l2 = l2.next if l2 else None
-        return dummy.next
+```cpp
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        ListNode* dummyHead = new ListNode(0);
+        ListNode* tail = dummyHead;
+        int carry = 0;
 
+        while (l1 != nullptr || l2 != nullptr || carry != 0) {
+            int digit1 = (l1 != nullptr) ? l1->val : 0;
+            int digit2 = (l2 != nullptr) ? l2->val : 0;
+
+            int sum = digit1 + digit2 + carry;
+            int digit = sum % 10;
+            carry = sum / 10;
+
+            ListNode* newNode = new ListNode(digit);
+            tail->next = newNode;
+            tail = tail->next;
+
+            l1 = (l1 != nullptr) ? l1->next : nullptr;
+            l2 = (l2 != nullptr) ? l2->next : nullptr;
+        }
+
+        ListNode* result = dummyHead->next;
+        delete dummyHead;
+        return result;
+    }
+};
 ```
 
 ---
