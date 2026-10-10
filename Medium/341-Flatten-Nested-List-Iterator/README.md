@@ -1,0 +1,109 @@
+# [341. Flatten Nested List Iterator](https://leetcode.com/problems/flatten-nested-list-iterator/)
+
+![Difficulty: Medium](https://img.shields.io/badge/Difficulty-Medium-orange?style=for-the-badge)
+![Language: Java](https://img.shields.io/badge/Language-Java-blue?style=for-the-badge)
+[![LeetCode Profile](https://img.shields.io/badge/LeetCode-Profile-FFA116?style=for-the-badge&logo=leetcode&logoColor=white)](https://leetcode.com/sreesrinivas/)
+
+---
+
+## 📝 Problem Statement
+
+You are given a nested list of integers `nestedList`. Each element is either an integer or a list whose elements may also be integers or other lists. Implement an iterator to flatten it.
+
+Implement the `NestedIterator` class:
+
+- `NestedIterator(List<NestedInteger> nestedList)` Initializes the iterator with the nested list `nestedList`.
+
+- `int next()` Returns the next integer in the nested list.
+
+- `boolean hasNext()` Returns `true` if there are still some integers in the nested list and `false` otherwise.
+
+Your code will be tested with the following pseudocode:
+
+```
+initialize iterator with nestedList
+res = []
+while iterator.hasNext()
+    append iterator.next() to the end of res
+return res
+```
+
+If `res` matches the expected flattened list, then your code will be judged as correct.
+
+ 
+
+**Example 1:**
+
+```
+Input: nestedList = [[1,1],2,[1,1]]
+Output: [1,1,2,1,1]
+Explanation: By calling next repeatedly until hasNext returns false, the order of elements returned by next should be: [1,1,2,1,1].
+```
+
+**Example 2:**
+
+```
+Input: nestedList = [1,[4,[6]]]
+Output: [1,4,6]
+Explanation: By calling next repeatedly until hasNext returns false, the order of elements returned by next should be: [1,4,6].
+```
+
+ 
+
+**Constraints:**
+
+- `1 <= nestedList.length <= 500`
+
+- The values of the integers in the nested list is in the range `[-106, 106]`.
+
+---
+
+## 💡 Solution Explanation
+
+Optimal iterative solution using a single pass to satisfy all problem constraints with optimal runtime performance.
+
+### ⏱️ Complexity Analysis
+
+- **Time Complexity:** `O(n)`
+- **Space Complexity:** `O(1)`
+
+---
+
+## 💻 Source Code
+
+👉 **[View Solution File](./solution.java)**
+
+```java
+public class NestedIterator implements Iterator<Integer> {
+    Deque<NestedInteger> stack = new ArrayDeque<>();
+    public NestedIterator(List<NestedInteger> nestedList) {
+        prepareStack(nestedList);
+    }
+
+    @Override
+    public Integer next() {
+        if (!hasNext()) {
+            return null;
+        }
+        return stack.pop().getInteger();
+    }
+
+    @Override
+    public boolean hasNext() {
+        while (!stack.isEmpty() && !stack.peek().isInteger()) {
+            List<NestedInteger> list = stack.pop().getList();
+            prepareStack(list);
+        }
+        return !stack.isEmpty();
+    }
+    
+    private void prepareStack(List<NestedInteger> nestedList) {
+        for (int i = nestedList.size() - 1; i >= 0; i--) {
+            stack.push(nestedList.get(i));
+        }
+    }
+}
+```
+
+---
+*Automatically solved and synced to GitHub by [sreesrinivas](https://leetcode.com/sreesrinivas/) using [LeetCode Automation](https://github.com/sreesrinivas/DSA).*
