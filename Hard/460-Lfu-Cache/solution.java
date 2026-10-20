@@ -1,0 +1,3 @@
+- HashMap gives O(1) access to nodes
+- Doubly linked list supports O(1) insertion and removal
+- minFreq avoids scanning frequency buckets during eviction
