@@ -1,7 +1,7 @@
 # [2333. Minimum Sum of Squared Difference](https://leetcode.com/problems/minimum-sum-of-squared-difference/)
 
 ![Difficulty: Medium](https://img.shields.io/badge/Difficulty-Medium-orange?style=for-the-badge)
-![Language: Java](https://img.shields.io/badge/Language-Java-blue?style=for-the-badge)
+![Language: Python3](https://img.shields.io/badge/Language-Python3-blue?style=for-the-badge)
 [![LeetCode Profile](https://img.shields.io/badge/LeetCode-Profile-FFA116?style=for-the-badge&logo=leetcode&logoColor=white)](https://leetcode.com/sreesrinivas/)
 
 ---
@@ -69,42 +69,63 @@ Exhaustive / multi-pass search across candidate elements to satisfy all problem 
 
 ## 💻 Source Code
 
-👉 **[View Solution File](./solution.java)**
+👉 **[View Solution File](./solution.py)**
 
-```java
-class Solution {
-    public long minSumSquareDiff(int[] nums1, int[] nums2, int k1, int k2) {
-        int[] d = new int[100001];
-        long k = (long) k1 + k2, sum = 0;
-        int max = 0;
+```python
+class Solution:
+    def minSumSquareDiff(
+        self,
+        nums1: List[int],
+        nums2: List[int],
+        k1: int,
+        k2: int
+    ) -> int:
+        """
+        Minimize sum((nums1[i] - nums2[i])^2) after at most k1+k2 total
+        ±1 adjustments to elements of nums1 or nums2.
 
-        // Step 1: count the differences
-        for (int i = 0; i < nums1.length; i++) {
-            int x = Math.abs(nums1[i] - nums2[i]);
-            d[x]++;
-            sum += x;
-            max = Math.max(max, x);
-        }
+       
 
-        // Enough budget -> every difference becomes 0
-        if (sum <= k) return 0;
+        # Total number of allowed operations
+        k = k1 + k2
 
-        // Step 2: shave the biggest differences, level by level
-        for (int i = max; i > 0 && k > 0; i--) {
-            long move = Math.min(k, d[i]);
-            d[i] -= move;
-            d[i - 1] += move;
-            k -= move;
-        }
+        # Absolute pairwise differences
+        diffs = [abs(a - b) for a, b in zip(nums1, nums2)]
 
-        // Step 3: add up the squares
-        long ans = 0;
-        for (int i = 0; i <= max; i++)
-            ans += (long) i * i * d[i];
+        # If total differences can be fully eliminated
+        if sum(diffs) <= k:
+            return 0
 
-        return ans;
-    }
-}
+        # Maximum observed difference
+        m = max(diffs)
+
+        # Frequency array: cnt[v] = number of differences equal to v
+        cnt = [0] * (m + 1)
+        for d in diffs:
+            cnt[d] += 1
+
+        # Greedily reduce largest differences first
+        for v in range(m, 0, -1):
+            if k == 0:
+                break
+
+            c = cnt[v]
+            if c == 0:
+                continue
+
+            if k >= c:
+                # Reduce all differences of size v to v-1
+                cnt[v] = 0
+                cnt[v - 1] += c
+                k -= c
+            else:
+                # Reduce only k of them
+                cnt[v] -= k
+                cnt[v - 1] += k
+                k = 0
+
+        # Compute final sum of squared differences
+        return sum(v * v * cnt[v] for v in range(len(cnt)))
 ```
 
 ---
