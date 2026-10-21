@@ -1,7 +1,7 @@
 # [2778. Sum of Squares of Special Elements ](https://leetcode.com/problems/sum-of-squares-of-special-elements/)
 
 ![Difficulty: Easy](https://img.shields.io/badge/Difficulty-Easy-brightgreen?style=for-the-badge)
-![Language: Java](https://img.shields.io/badge/Language-Java-blue?style=for-the-badge)
+![Language: Python3](https://img.shields.io/badge/Language-Python3-blue?style=for-the-badge)
 [![LeetCode Profile](https://img.shields.io/badge/LeetCode-Profile-FFA116?style=for-the-badge&logo=leetcode&logoColor=white)](https://leetcode.com/sreesrinivas/)
 
 ---
@@ -57,19 +57,17 @@ Optimal iterative solution using a single pass to satisfy all problem constraint
 
 ## 💻 Source Code
 
-👉 **[View Solution File](./solution.java)**
+👉 **[View Solution File](./solution.py)**
 
-```java
-class Solution {
-    public int sumOfSquares(int[] nums) {
-        int ans = 0;
-        for (int i = 1; i <= nums.length; i++) {
-            if (nums.length % i == 0)
-                ans += nums[i - 1] * nums[i - 1];
-        }
-        return ans;
-    }
-}
+```python
+class Solution:
+    def sumOfSquares(self, nums: List[int]) -> int:
+        n = len(nums)
+        sum = 0
+        for i in range(n):
+            if n % (i + 1) == 0:
+                sum += (nums[i] * nums[i])
+        return sum
 ```
 
 ---
