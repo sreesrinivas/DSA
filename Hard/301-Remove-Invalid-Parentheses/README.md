@@ -1,7 +1,7 @@
 # [301. Remove Invalid Parentheses](https://leetcode.com/problems/remove-invalid-parentheses/)
 
 ![Difficulty: Hard](https://img.shields.io/badge/Difficulty-Hard-red?style=for-the-badge)
-![Language: C++](https://img.shields.io/badge/Language-C++-blue?style=for-the-badge)
+![Language: Python3](https://img.shields.io/badge/Language-Python3-blue?style=for-the-badge)
 [![LeetCode Profile](https://img.shields.io/badge/LeetCode-Profile-FFA116?style=for-the-badge&logo=leetcode&logoColor=white)](https://leetcode.com/sreesrinivas/)
 
 ---
@@ -60,45 +60,32 @@ Exhaustive / multi-pass search across candidate elements to satisfy all problem 
 
 ## 💻 Source Code
 
-👉 **[View Solution File](./solution.cpp)**
+👉 **[View Solution File](./solution.py)**
 
-```cpp
-class Solution {
-    public List<String> removeInvalidParentheses(String s) {
-        List<String> ans = new ArrayList<>();
-        remove(s, ans, 0, 0, new char[]{'(', ')'});
-        return ans;
-    }
-
-    void remove(String s, List<String> ans, int i, int j, char[] p) {
-        int count = 0;
-
-        for (int k = i; k < s.length(); k++) {
-            if (s.charAt(k) == p[0]) count++;
-            if (s.charAt(k) == p[1]) count--;
-
-            if (count < 0) {
-                for (int x = j; x <= k; x++) {
-                    if (s.charAt(x) == p[1] &&
-                        (x == j || s.charAt(x - 1) != p[1])) {
-
-                        remove(s.substring(0, x) +
-                               s.substring(x + 1),
-                               ans, k, x, p);
-                    }
-                }
-                return;
-            }
-        }
-
-        String rev = new StringBuilder(s).reverse().toString();
-
-        if (p[0] == '(')
-            remove(rev, ans, 0, 0, new char[]{')', '('});
-        else
-            ans.add(rev);
-    }
-}
+```python
+class Solution:
+    def removeInvalidParentheses(self, s: str) -> List[str]:
+        def isValid(s):
+            i= 0
+            ctr = 0
+            while i<len(s):
+                if s[i]== '(':
+                    ctr += 1
+                elif s[i] == ")":
+                    if ctr == 0:
+                        return False
+                    ctr -= 1
+                
+                i +=1
+            
+            return ctr == 0
+        
+        level ={s}
+        while True:
+            valid = list(filter(isValid, level))
+            if valid:
+                return valid
+            level = {s[:i] + s[i+1:] for i in range(len(s)) for s in level}
 ```
 
 ---
