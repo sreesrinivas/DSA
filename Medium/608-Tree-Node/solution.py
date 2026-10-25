@@ -1,0 +1,3 @@
+select T.id, 
+IF(isnull(T.p_id), 'Root', IF(T.id in (select p_id from tree), 'Inner', 'Leaf')) Type 
+from tree T
