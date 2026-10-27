@@ -1,0 +1,98 @@
+# [661. Image Smoother](https://leetcode.com/problems/image-smoother/)
+
+![Difficulty: Easy](https://img.shields.io/badge/Difficulty-Easy-brightgreen?style=for-the-badge)
+![Language: Python3](https://img.shields.io/badge/Language-Python3-blue?style=for-the-badge)
+[![LeetCode Profile](https://img.shields.io/badge/LeetCode-Profile-FFA116?style=for-the-badge&logo=leetcode&logoColor=white)](https://leetcode.com/sreesrinivas/)
+
+---
+
+## 📝 Problem Statement
+
+An **image smoother** is a filter of the size `3 x 3` that can be applied to each cell of an image by rounding down the average of the cell and the eight surrounding cells (i.e., the average of the nine cells in the blue smoother). If one or more of the surrounding cells of a cell is not present, we do not consider it in the average (i.e., the average of the four cells in the red smoother).
+
+Given an `m x n` integer matrix `img` representing the grayscale of an image, return *the image after applying the smoother on each cell of it*.
+
+ 
+
+**Example 1:**
+
+```
+Input: img = [[1,1,1],[1,0,1],[1,1,1]]
+Output: [[0,0,0],[0,0,0],[0,0,0]]
+Explanation:
+For the points (0,0), (0,2), (2,0), (2,2): floor(3/4) = floor(0.75) = 0
+For the points (0,1), (1,0), (1,2), (2,1): floor(5/6) = floor(0.83333333) = 0
+For the point (1,1): floor(8/9) = floor(0.88888889) = 0
+```
+
+**Example 2:**
+
+```
+Input: img = [[100,200,100],[200,50,200],[100,200,100]]
+Output: [[137,141,137],[141,138,141],[137,141,137]]
+Explanation:
+For the points (0,0), (0,2), (2,0), (2,2): floor((100+200+200+50)/4) = floor(137.5) = 137
+For the points (0,1), (1,0), (1,2), (2,1): floor((200+200+50+200+100+100)/6) = floor(141.666667) = 141
+For the point (1,1): floor((50+200+200+200+200+100+100+100+100)/9) = floor(138.888889) = 138
+```
+
+ 
+
+**Constraints:**
+
+- `m == img.length`
+
+- `n == img[i].length`
+
+- `1 <= m, n <= 200`
+
+- `0 <= img[i][j] <= 255`
+
+---
+
+## 💡 Solution Explanation
+
+Exhaustive / multi-pass search across candidate elements to satisfy all problem constraints with optimal runtime performance.
+
+### ⏱️ Complexity Analysis
+
+- **Time Complexity:** `O(n²)`
+- **Space Complexity:** `O(1)`
+
+---
+
+## 💻 Source Code
+
+👉 **[View Solution File](./solution.py)**
+
+```python
+class Solution:
+    def imageSmoother(self, img: List[List[int]]) -> List[List[int]]:
+        # Get the dimensions of the image matrix
+        rows, cols = len(img), len(img[0])
+        
+        # Define a helper function to calculate the average value for a pixel
+        def average_value(r, c):
+            total, count = 0, 0
+
+            # Define the boundaries for the neighboring pixels
+            top = max(0, r - 1)
+            bottom = min(rows, r + 2)
+            left = max(0, c - 1)
+            right = min(cols, c + 2)
+
+            # Iterate over the neighboring pixels and calculate the sum and count
+            for row in range(top, bottom):
+                for col in range(left, right):
+                    total += img[row][col]
+                    count += 1
+
+            # Calculate and return the average value for the pixel
+            return total // count
+
+        # Apply the average function to each pixel in the image matrix
+        return [[average_value(r, c) for c in range(cols)] for r in range(rows)]
+```
+
+---
+*Automatically solved and synced to GitHub by [sreesrinivas](https://leetcode.com/sreesrinivas/) using [LeetCode Automation](https://github.com/sreesrinivas/DSA).*
