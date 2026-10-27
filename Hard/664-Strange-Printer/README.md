@@ -1,0 +1,96 @@
+# [664. Strange Printer](https://leetcode.com/problems/strange-printer/)
+
+![Difficulty: Hard](https://img.shields.io/badge/Difficulty-Hard-red?style=for-the-badge)
+![Language: Java](https://img.shields.io/badge/Language-Java-blue?style=for-the-badge)
+[![LeetCode Profile](https://img.shields.io/badge/LeetCode-Profile-FFA116?style=for-the-badge&logo=leetcode&logoColor=white)](https://leetcode.com/sreesrinivas/)
+
+---
+
+## 📝 Problem Statement
+
+There is a strange printer with the following two special properties:
+
+- The printer can only print a sequence of **the same character** each time.
+
+- At each turn, the printer can print new characters starting from and ending at any place and will cover the original existing characters.
+
+Given a string `s`, return *the minimum number of turns the printer needed to print it*.
+
+ 
+
+**Example 1:**
+
+```
+Input: s = "aaabbb"
+Output: 2
+Explanation: Print "aaa" first and then print "bbb".
+```
+
+**Example 2:**
+
+```
+Input: s = "aba"
+Output: 2
+Explanation: Print "aaa" first and then print "b" from the second place of the string, which will cover the existing character 'a'.
+```
+
+ 
+
+**Constraints:**
+
+- `1 <= s.length <= 100`
+
+- `s` consists of lowercase English letters.
+
+---
+
+## 💡 Solution Explanation
+
+Dynamic programming / memoized recursion approach storing overlapping subproblems to satisfy all problem constraints with optimal runtime performance.
+
+### ⏱️ Complexity Analysis
+
+- **Time Complexity:** `O(n)`
+- **Space Complexity:** `O(n)`
+
+---
+
+## 💻 Source Code
+
+👉 **[View Solution File](./solution.java)**
+
+```java
+class Solution {
+    public int strangePrinter(String s) {
+        int n = s.length();
+        char[] sChar = s.toCharArray();
+        int[][] dp = new int[n][n];
+        for(int[] in : dp) Arrays.fill(in, -1);
+        return Util(0, n - 1, sChar, dp);
+    }
+    public int Util(int i, int j, char[] sChar, int[][] dp) {
+        if (i > j) {
+            return 0;
+        }
+
+        if(dp[i][j] != -1) return dp[i][j];
+        
+        int firstLetter = sChar[i];
+        // in case, current character is not repeated in the rest of the string
+        int answer = 1 + Util(i + 1, j, sChar, dp);
+        for (int k = i + 1; k <= j; k++) {
+            // if repeated then update the answer
+            if (sChar[k] == firstLetter) {   
+                // splitting from i -> k - 1(remove the last character)
+                // and from k + 1 -> j             
+                int betterAnswer = Util(i, k - 1, sChar, dp) + Util(k + 1, j, sChar, dp);
+                answer = Math.min(answer, betterAnswer);
+            }
+        }
+        return dp[i][j] = answer;
+    }
+}
+```
+
+---
+*Automatically solved and synced to GitHub by [sreesrinivas](https://leetcode.com/sreesrinivas/) using [LeetCode Automation](https://github.com/sreesrinivas/DSA).*
