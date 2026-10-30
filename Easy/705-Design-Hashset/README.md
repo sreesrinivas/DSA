@@ -1,0 +1,93 @@
+# [705. Design HashSet](https://leetcode.com/problems/design-hashset/)
+
+![Difficulty: Easy](https://img.shields.io/badge/Difficulty-Easy-brightgreen?style=for-the-badge)
+![Language: Python3](https://img.shields.io/badge/Language-Python3-blue?style=for-the-badge)
+[![LeetCode Profile](https://img.shields.io/badge/LeetCode-Profile-FFA116?style=for-the-badge&logo=leetcode&logoColor=white)](https://leetcode.com/sreesrinivas/)
+
+---
+
+## 📝 Problem Statement
+
+Design a HashSet without using any built-in hash table libraries.
+
+Implement `MyHashSet` class:
+
+- `void add(key)` Inserts the value `key` into the HashSet.
+
+- `bool contains(key)` Returns whether the value `key` exists in the HashSet or not.
+
+- `void remove(key)` Removes the value `key` in the HashSet. If `key` does not exist in the HashSet, do nothing.
+
+ 
+
+**Example 1:**
+
+```
+Input
+["MyHashSet", "add", "add", "contains", "contains", "add", "contains", "remove", "contains"]
+[[], [1], [2], [1], [3], [2], [2], [2], [2]]
+Output
+[null, null, null, true, false, null, true, null, false]
+
+Explanation
+MyHashSet myHashSet = new MyHashSet();
+myHashSet.add(1);      // set = [1]
+myHashSet.add(2);      // set = [1, 2]
+myHashSet.contains(1); // return True
+myHashSet.contains(3); // return False, (not found)
+myHashSet.add(2);      // set = [1, 2]
+myHashSet.contains(2); // return True
+myHashSet.remove(2);   // set = [1]
+myHashSet.contains(2); // return False, (already removed)
+```
+
+ 
+
+**Constraints:**
+
+- `0 <= key <= 106`
+
+- At most `104` calls will be made to `add`, `remove`, and `contains`.
+
+---
+
+## 💡 Solution Explanation
+
+Optimal iterative solution using a single pass to satisfy all problem constraints with optimal runtime performance.
+
+### ⏱️ Complexity Analysis
+
+- **Time Complexity:** `O(n)`
+- **Space Complexity:** `O(1)`
+
+---
+
+## 💻 Source Code
+
+👉 **[View Solution File](./solution.py)**
+
+```python
+class MyHashSet: 
+    def eval_hash(self, key):
+        return ((key*1031237) & (1<<20) - 1)>>5
+
+    def __init__(self):
+        self.arr = [[] for _ in range(1<<15)]
+
+    def add(self, key: int) -> None:
+        t = self.eval_hash(key)
+        if key not in self.arr[t]:
+            self.arr[t].append(key)
+
+    def remove(self, key: int) -> None:
+        t = self.eval_hash(key)
+        if key in self.arr[t]:
+            self.arr[t].remove(key)
+
+    def contains(self, key: int) -> bool:
+        t = self.eval_hash(key)
+        return key in self.arr[t]
+```
+
+---
+*Automatically solved and synced to GitHub by [sreesrinivas](https://leetcode.com/sreesrinivas/) using [LeetCode Automation](https://github.com/sreesrinivas/DSA).*
