@@ -1,7 +1,7 @@
 # [695. Max Area of Island](https://leetcode.com/problems/max-area-of-island/)
 
-![Difficulty: Easy](https://img.shields.io/badge/Difficulty-Easy-brightgreen?style=for-the-badge)
-![Language: Python3](https://img.shields.io/badge/Language-Python3-blue?style=for-the-badge)
+![Difficulty: Medium](https://img.shields.io/badge/Difficulty-Medium-orange?style=for-the-badge)
+![Language: Java](https://img.shields.io/badge/Language-Java-blue?style=for-the-badge)
 [![LeetCode Profile](https://img.shields.io/badge/LeetCode-Profile-FFA116?style=for-the-badge&logo=leetcode&logoColor=white)](https://leetcode.com/sreesrinivas/)
 
 ---
@@ -58,34 +58,26 @@ Exhaustive / multi-pass search across candidate elements to satisfy all problem 
 
 ## 💻 Source Code
 
-👉 **[View Solution File](./solution.py)**
+👉 **[View Solution File](./solution.java)**
 
-```python
-import sys
+```java
+class Solution {
+    int check(int[][] g, int i, int j) {
+        if (i == -1 || i == g.length || j == -1 || j == g[0].length || g[i][j] == 0) return 0;
+        g[i][j] = 0;
+        return 1 + check(g, i - 1, j) + check(g, i, j - 1) + check(g, i + 1, j) + check(g, i, j + 1);
+    }
 
-sys.setrecursionlimit(10000)
-
-
-class Solution:
-    def check(self, g: List[List[int]], i: int, j: int) -> int:
-        if i == -1 or i == len(g) or j == -1 or j == len(g[0]) or not g[i][j]:
-            return 0
-        g[i][j] = 0
-        return (
-            1
-            + self.check(g, i - 1, j)
-            + self.check(g, i, j - 1)
-            + self.check(g, i + 1, j)
-            + self.check(g, i, j + 1)
-        )
-
-    def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
-        mx = 0
-        for i in range(len(grid)):
-            for j in range(len(grid[0])):
-                if grid[i][j]:
-                    mx = max(mx, self.check(grid, i, j))
-        return mx
+    public int maxAreaOfIsland(int[][] grid) {
+        int mx = 0;
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[0].length; j++) {
+                if (grid[i][j] != 0) mx = Math.max(mx, check(grid, i, j));
+            }
+        }
+        return mx;
+    }
+}
 ```
 
 ---
