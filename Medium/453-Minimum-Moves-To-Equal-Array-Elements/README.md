@@ -1,7 +1,7 @@
 # [453. Minimum Moves to Equal Array Elements](https://leetcode.com/problems/minimum-moves-to-equal-array-elements/)
 
 ![Difficulty: Medium](https://img.shields.io/badge/Difficulty-Medium-orange?style=for-the-badge)
-![Language: Python3](https://img.shields.io/badge/Language-Python3-blue?style=for-the-badge)
+![Language: C++](https://img.shields.io/badge/Language-C++-blue?style=for-the-badge)
 [![LeetCode Profile](https://img.shields.io/badge/LeetCode-Profile-FFA116?style=for-the-badge&logo=leetcode&logoColor=white)](https://leetcode.com/sreesrinivas/)
 
 ---
@@ -57,15 +57,17 @@ Optimal iterative solution using a single pass to satisfy all problem constraint
 
 ## 💻 Source Code
 
-👉 **[View Solution File](./solution.py)**
+👉 **[View Solution File](./solution.cpp)**
 
-```python
-class Solution:
-    def minMoves(self, nums: List[int]) -> int:       
-        minElement = min(nums)
-        targetSum = len(nums) * minElement
-        totalSum = sum(nums)
-        return totalSum-targetSum
+```cpp
+class Solution {
+public:
+    int minMoves(vector<int>& nums) {
+        int lo = ranges::min(nums), moves = 0;
+        for (int x : nums) moves += x - lo;
+        return moves;
+    }
+};
 ```
 
 ---
