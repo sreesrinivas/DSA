@@ -47,11 +47,11 @@ Output: 16
 
 ## 💡 Solution Explanation
 
-Sorting-based greedy or two-pointer approach to satisfy all problem constraints with optimal runtime performance.
+Optimal iterative solution using a single pass to satisfy all problem constraints with optimal runtime performance.
 
 ### ⏱️ Complexity Analysis
 
-- **Time Complexity:** `O(n log n)`
+- **Time Complexity:** `O(n)`
 - **Space Complexity:** `O(1)`
 
 ---
@@ -64,13 +64,11 @@ Sorting-based greedy or two-pointer approach to satisfy all problem constraints 
 class Solution {
 public:
     int minMoves2(vector<int>& nums) {
-        int n = nums.size(), steps = 0;
-        sort(nums.begin(), nums.end());
-        int median = nums[n/2]; // Finding median
-        for(int i=0; i<n; i++){
-            steps += abs(nums[i] - median); //Adding absolute difference
-        }
-        return steps;
+        auto mid = nums.begin() + nums.size() / 2;
+        ranges::nth_element(nums, mid);
+        int med = *mid, moves = 0;
+        for (int x : nums) moves += abs(x - med);
+        return moves;
     }
 };
 ```
