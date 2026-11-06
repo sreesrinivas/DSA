@@ -1,0 +1,1 @@
+const projectionArea=t=>{let e=0;front=0,side=0;for(let r=0;r<t.length;r++){let n=0,o=0;for(let l=0;l<t[r].length;l++)t[r][l]>0&&e++,n=Math.max(n,t[r][l]),o=Math.max(o,t[l][r]);front+=n,side+=o}return e+front+side};
