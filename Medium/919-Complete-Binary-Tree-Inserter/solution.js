@@ -1,0 +1,1 @@
+class CBTInserter{#t;#e=[];#h=0;constructor(t){this.#t=t;const e=[t];for(let t=0;t<e.length;t++){const h=e[t];h.left&&e.push(h.left),h.right&&e.push(h.right),h.left&&h.right||this.#e.push(h)}}insert(t){const e=this.#e[this.#h],h=new TreeNode(t);return e.left?(e.right=h,this.#h++):e.left=h,this.#e.push(h),e.val}get_root(){return this.#t}}
