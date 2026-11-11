@@ -1,0 +1,92 @@
+# [926. Flip String to Monotone Increasing](https://leetcode.com/problems/flip-string-to-monotone-increasing/)
+
+![Difficulty: Medium](https://img.shields.io/badge/Difficulty-Medium-orange?style=for-the-badge)
+![Language: C++](https://img.shields.io/badge/Language-C++-blue?style=for-the-badge)
+[![LeetCode Profile](https://img.shields.io/badge/LeetCode-Profile-FFA116?style=for-the-badge&logo=leetcode&logoColor=white)](https://leetcode.com/sreesrinivas/)
+
+---
+
+## 📝 Problem Statement
+
+A binary string is monotone increasing if it consists of some number of `0`'s (possibly none), followed by some number of `1`'s (also possibly none).
+
+You are given a binary string `s`. You can flip `s[i]` changing it from `0` to `1` or from `1` to `0`.
+
+Return *the minimum number of flips to make *`s`* monotone increasing*.
+
+ 
+
+**Example 1:**
+
+```
+Input: s = "00110"
+Output: 1
+Explanation: We flip the last digit to get 00111.
+```
+
+**Example 2:**
+
+```
+Input: s = "010110"
+Output: 2
+Explanation: We flip to get 011111, or alternatively 000111.
+```
+
+**Example 3:**
+
+```
+Input: s = "00011000"
+Output: 2
+Explanation: We flip to get 00000000.
+```
+
+ 
+
+**Constraints:**
+
+- `1 <= s.length <= 105`
+
+- `s[i]` is either `'0'` or `'1'`.
+
+---
+
+## 💡 Solution Explanation
+
+Optimal iterative solution using a single pass to satisfy all problem constraints with optimal runtime performance.
+
+### ⏱️ Complexity Analysis
+
+- **Time Complexity:** `O(n)`
+- **Space Complexity:** `O(1)`
+
+---
+
+## 💻 Source Code
+
+👉 **[View Solution File](./solution.cpp)**
+
+```cpp
+class Solution
+{
+public:
+    int minFlipsMonoIncr(string S)
+    {
+        int count_flip = 0, count_one = 0;
+        for (auto i : S)
+        { 
+ //keep track of all one (we will use count_one in else condition if we need)  
+//if we want flip one into 0
+            if (i == '1')
+                count_one++;
+            else{
+                count_flip++;
+            count_flip = min(count_flip, count_one);
+            }
+        }
+        return count_flip;
+    }
+};
+```
+
+---
+*Automatically solved and synced to GitHub by [sreesrinivas](https://leetcode.com/sreesrinivas/) using [LeetCode Automation](https://github.com/sreesrinivas/DSA).*
