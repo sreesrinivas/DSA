@@ -1,15 +1,13 @@
 class Solution:
     def findTheDistanceValue(self, arr1, arr2, d):
-        arr1.sort()
-        arr2.sort()
+        c = 0
+        for n in arr1:
+            if self.isValid(n, arr2, d):
+                c += 1
+        return c
 
-        ans = j = 0
-
-        for x in arr1:
-            while j < len(arr2) and arr2[j] < x - d:
-                j += 1
-
-            if j == len(arr2) or arr2[j] > x + d:
-                ans += 1
-
-        return ans
+    def isValid(self, n, arr, d):
+        for e in arr:
+            if abs(e - n) <= d:
+                return False
+        return True
