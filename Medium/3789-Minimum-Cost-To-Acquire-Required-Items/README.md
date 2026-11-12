@@ -1,7 +1,7 @@
 # [3789. Minimum Cost to Acquire Required Items](https://leetcode.com/problems/minimum-cost-to-acquire-required-items/)
 
 ![Difficulty: Medium](https://img.shields.io/badge/Difficulty-Medium-orange?style=for-the-badge)
-![Language: C++](https://img.shields.io/badge/Language-C++-blue?style=for-the-badge)
+![Language: Java](https://img.shields.io/badge/Language-Java-blue?style=for-the-badge)
 [![LeetCode Profile](https://img.shields.io/badge/LeetCode-Profile-FFA116?style=for-the-badge&logo=leetcode&logoColor=white)](https://leetcode.com/sreesrinivas/)
 
 ---
@@ -79,20 +79,20 @@ Optimal iterative solution using a single pass to satisfy all problem constraint
 
 ## 💻 Source Code
 
-👉 **[View Solution File](./solution.cpp)**
+👉 **[View Solution File](./solution.java)**
 
-```cpp
+```java
 class Solution {
-public:
-    long long minimumCost(int cost1, int cost2, int costBoth, int need1, int need2) {
-        auto bound = [&](long long needA, int costA, long long needB, int costB) {
-            int pA = min(costA, costBoth);  // a takes its full price
-            int pB = min(costB, costBoth - pA);  // b gets what's left of the bundle
-            return needA * pA + needB * pB;
-        };
-        return max(bound(need1, cost1, need2, cost2), bound(need2, cost2, need1, cost1));
+    public long minimumCost(int cost1, int cost2, int costBoth, int need1, int need2) {
+        return Math.max(bound(need1, cost1, need2, cost2, costBoth), bound(need2, cost2, need1, cost1, costBoth));
     }
-};
+
+    private long bound(long needA, int costA, long needB, int costB, int costBoth) {
+        int pA = Math.min(costA, costBoth);  // a takes its full price
+        int pB = Math.min(costB, costBoth - pA);  // b gets what's left of the bundle
+        return needA * pA + needB * pB;
+    }
+}
 ```
 
 ---
