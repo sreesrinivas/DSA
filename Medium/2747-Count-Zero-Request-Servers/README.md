@@ -1,7 +1,7 @@
 # [2747. Count Zero Request Servers](https://leetcode.com/problems/count-zero-request-servers/)
 
 ![Difficulty: Medium](https://img.shields.io/badge/Difficulty-Medium-orange?style=for-the-badge)
-![Language: C++](https://img.shields.io/badge/Language-C++-blue?style=for-the-badge)
+![Language: Python3](https://img.shields.io/badge/Language-Python3-blue?style=for-the-badge)
 [![LeetCode Profile](https://img.shields.io/badge/LeetCode-Profile-FFA116?style=for-the-badge&logo=leetcode&logoColor=white)](https://leetcode.com/sreesrinivas/)
 
 ---
@@ -62,67 +62,44 @@ For queries[1]: Only server with id 3 gets no request in the duration [2,4].
 
 ## 💡 Solution Explanation
 
-Exhaustive / multi-pass search across candidate elements to satisfy all problem constraints with optimal runtime performance.
+Sorting-based greedy or two-pointer approach to satisfy all problem constraints with optimal runtime performance.
 
 ### ⏱️ Complexity Analysis
 
-- **Time Complexity:** `O(n²)`
+- **Time Complexity:** `O(n log n)`
 - **Space Complexity:** `O(n)`
 
 ---
 
 ## 💻 Source Code
 
-👉 **[View Solution File](./solution.cpp)**
+👉 **[View Solution File](./solution.py)**
 
-```cpp
-class Solution {
-public:
-
-    //Please upvote if you understood the solution and find it intuitive.
-
-    vector<int> countServers(int n, vector<vector<int>>& logs, int x, vector<int>& queries) {
-        int m = logs.size();
-        vector<pair<int,int>> vp;
-        for(auto it:logs) vp.push_back({it[1],it[0]}); //time,serverid
-        sort(vp.begin(),vp.end()); //sort on basis of time
-        
-        int q = queries.size();
-        unordered_map<int,int> mp;//to store the unique server ids in the current window
-
-        vector<int> ans(q,0);
-        vector<pair<int,int>> time(q);
-        //store the indices of queries to store the answer in correct manner
-        for(int i = 0;i<q;i++) time[i] = {queries[i],i}; //time,index
-        sort(time.begin(),time.end()); //sort on basis of time
-        
-        int i = 0,j = 0; //i is the start of window and j is the end of window
-        for(auto tm:time)
-        {
-            int curtime = tm.first;
-            int ind = tm.second;
-            
-            int start = max(0,curtime-x); //finding the start time (like queries[i]-x), cant be less than 0
-            int end = curtime; 
-            
-            
-            while(j<m and vp[j].first<=end) //move j until the value of time in logs is not more than end
-            {
-                mp[vp[j].second]++; 
-                j++;
-            }
-            while(i<m and vp[i].first<start) //move i until the value is not >= start
-            {
-                //removing out of window elements
-                if(mp[vp[i].second]==1) mp.erase(vp[i].second); //if it is its only occurence then erase it.
-                else mp[vp[i].second]--;
-                i++;
-            }
-            ans[ind] = n - mp.size();
-        }
-        return ans;
-    }
-};
+```python
+class Solution:
+    def countServers(self, n: int, logs: List[List[int]], x: int, queries: List[int]) -> List[int]:
+        dico={i:0 for i in range (1,n+1)}
+        logs=sorted(logs,key=lambda x:x[1])
+        queries=sorted([query,i] for i,query in enumerate(queries))
+        p=len(logs)
+        right,left=0,-1
+        countNull=n
+        res=[0]*len(queries)
+        for query,i in queries:
+            while right <p and logs[right][1]<=query:
+                serv=logs[right][0]
+                if dico[serv]==0:
+                    countNull-=1
+                dico[serv]+=1
+                right+=1
+            while left+1<p and logs[left+1][1]<query-x:
+                left+=1
+                serv=logs[left][0]
+                dico[serv]-=1
+                if dico[serv]==0:
+                    countNull+=1
+            res[i]=countNull
+        return res
 ```
 
 ---
