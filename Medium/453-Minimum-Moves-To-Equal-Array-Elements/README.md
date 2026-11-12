@@ -1,16 +1,18 @@
 # [453. Minimum Moves to Equal Array Elements](https://leetcode.com/problems/minimum-moves-to-equal-array-elements/)
 
 ![Difficulty: Medium](https://img.shields.io/badge/Difficulty-Medium-orange?style=for-the-badge)
-![Language: C++](https://img.shields.io/badge/Language-C++-blue?style=for-the-badge)
+![Language: Java](https://img.shields.io/badge/Language-Java-blue?style=for-the-badge)
 [![LeetCode Profile](https://img.shields.io/badge/LeetCode-Profile-FFA116?style=for-the-badge&logo=leetcode&logoColor=white)](https://leetcode.com/sreesrinivas/)
 
 ---
 
 ## 📝 Problem Statement
 
-Given an integer array `nums` of size `n`, return *the minimum number of moves required to make all array elements equal*.
+You are given an integer array `nums` of size `n`.
 
-In one move, you can increment `n - 1` elements of the array by `1`.
+Return the **minimum** number of moves required to make all array elements **equal**.
+
+In one move, you must increment `n - 1` elements of the array by 1.
 
  
 
@@ -57,17 +59,16 @@ Optimal iterative solution using a single pass to satisfy all problem constraint
 
 ## 💻 Source Code
 
-👉 **[View Solution File](./solution.cpp)**
+👉 **[View Solution File](./solution.java)**
 
-```cpp
+```java
 class Solution {
-public:
-    int minMoves(vector<int>& nums) {
-        int lo = ranges::min(nums), moves = 0;
+    public int minMoves(int[] nums) {
+        int lo = Arrays.stream(nums).min().getAsInt(), moves = 0;
         for (int x : nums) moves += x - lo;
         return moves;
     }
-};
+}
 ```
 
 ---
