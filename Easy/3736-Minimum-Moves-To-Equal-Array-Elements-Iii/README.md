@@ -1,7 +1,7 @@
 # [3736. Minimum Moves to Equal Array Elements III](https://leetcode.com/problems/minimum-moves-to-equal-array-elements-iii/)
 
 ![Difficulty: Easy](https://img.shields.io/badge/Difficulty-Easy-brightgreen?style=for-the-badge)
-![Language: Python3](https://img.shields.io/badge/Language-Python3-blue?style=for-the-badge)
+![Language: C++](https://img.shields.io/badge/Language-C++-blue?style=for-the-badge)
 [![LeetCode Profile](https://img.shields.io/badge/LeetCode-Profile-FFA116?style=for-the-badge&logo=leetcode&logoColor=white)](https://leetcode.com/sreesrinivas/)
 
 ---
@@ -30,9 +30,9 @@ To make all elements equal:
 
 - Increase `nums[1] = 1` by 1 to make it 2.
 
-- Increase `nums[1] = 2` by 1 to make it 3.
+- Increase the updated `nums[1] = 2` by 1 to make it 3.
 
-Now, all elements of `nums` are equal to 3. The minimum total moves is `3`.
+Now, all elements of `nums` are equal to 3. The minimum total moves is 3.
 
 **Example 2:**
 
@@ -48,7 +48,7 @@ To make all elements equal:
 
 - Increase `nums[1] = 4` by 1 to make it 5.
 
-Now, all elements of `nums` are equal to 5. The minimum total moves is `2`.
+Now, all elements of `nums` are equal to 5. The minimum total moves is 2.
 
  
 
@@ -62,7 +62,7 @@ Now, all elements of `nums` are equal to 5. The minimum total moves is `2`.
 
 ## 💡 Solution Explanation
 
-Optimal iterative solution using a single pass to satisfy all problem constraints with optimal runtime performance.
+Two-pointer linear scan adjusting window boundaries based on constraints to satisfy all problem constraints with optimal runtime performance.
 
 ### ⏱️ Complexity Analysis
 
@@ -73,16 +73,18 @@ Optimal iterative solution using a single pass to satisfy all problem constraint
 
 ## 💻 Source Code
 
-👉 **[View Solution File](./solution.py)**
+👉 **[View Solution File](./solution.cpp)**
 
-```python
-class Solution:
-    def minMoves(self, nums: List[int]) -> int:
-        mx = max(nums)
-        res = 0
-        for x in nums:
-            res += mx - x
-        return res
+```cpp
+class Solution {
+public:
+    int minMoves(vector<int>& nums) {
+        long long int sum = 0;
+        for(auto it : nums) sum += it;
+        int mx = *max_element(nums.begin(), nums.end());
+        return nums.size() * mx - sum;
+    }
+};
 ```
 
 ---
