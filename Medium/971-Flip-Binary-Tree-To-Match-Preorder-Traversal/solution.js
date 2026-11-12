@@ -1,0 +1,1 @@
+const flipMatchVoyage=(l,t)=>{let e=0;const a=[],f=(l,t)=>null==l||l.val===t[e++]&&(null!==l.left&&l.left.val!==t[e]?(a.push(l.val),f(l.right,t)&&f(l.left,t)):f(l.left,t)&&f(l.right,t));return f(l,t)?a:[-1]};
