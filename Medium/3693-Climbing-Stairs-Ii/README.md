@@ -1,7 +1,7 @@
 # [3693. Climbing Stairs II](https://leetcode.com/problems/climbing-stairs-ii/)
 
 ![Difficulty: Medium](https://img.shields.io/badge/Difficulty-Medium-orange?style=for-the-badge)
-![Language: Java](https://img.shields.io/badge/Language-Java-blue?style=for-the-badge)
+![Language: Python3](https://img.shields.io/badge/Language-Python3-blue?style=for-the-badge)
 [![LeetCode Profile](https://img.shields.io/badge/LeetCode-Profile-FFA116?style=for-the-badge&logo=leetcode&logoColor=white)](https://leetcode.com/sreesrinivas/)
 
 ---
@@ -105,26 +105,20 @@ Dynamic programming / memoized recursion approach storing overlapping subproblem
 
 ## 💻 Source Code
 
-👉 **[View Solution File](./solution.java)**
+👉 **[View Solution File](./solution.py)**
 
-```java
-class Solution {
-    public int climbStairs(int n, int[] costs) {
-        long[] dp = new long[n + 1];
-        Arrays.fill(dp, Long.MAX_VALUE);
-        dp[0] = 0;
-        for (int j = 1; j <= n; j++) {
-            for (int k = 1; k <= 3; k++) {
-                int i = j - k;
-                if (i >= 0) {
-                    long jump = (long)(j - i) * (j - i);
-                    dp[j] = Math.min(dp[j], dp[i] + costs[j - 1] + jump);
-                }
-            }
-        }
-        return (int)dp[n];
-    }
-}
+```python
+class Solution:
+    def climbStairs(self, n: int, costs: List[int]) -> int:
+        dp = [float('inf')] * (n + 1)
+        dp[0] = 0
+        for j in range(1, n + 1):
+            for k in range(1, 4):
+                i = j - k
+                if i >= 0:
+                    jump = (j - i) * (j - i)
+                    dp[j] = min(dp[j], dp[i] + costs[j - 1] + jump)
+        return dp[n]
 ```
 
 ---
